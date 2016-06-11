@@ -1,0 +1,15 @@
+*.o
+a.out
+task
+
+# gdb history file
+.gdb_history
+
+# gdb peda plugin files
+peda*
+
+# vim temporary files
+*.swp
+
+# gedit? temporary files
+*.c~
