@@ -33,23 +33,28 @@ void list_free(node* first){
     }
 }
 
-void list_append_element_end(node* list, int new_element){
+void list_append(node** list, int new_element){
   node* new_node = (node*)malloc(sizeof(node)); 
   CHECK_ALLOC(new_node); 
   new_node->data = new_element;
   new_node->next = NULL;
 
-  if (list == NULL){
-    list = new_node;
+  if (*list == NULL){
+    *list = new_node;
   }
-  while (list->next != NULL)
-    list = list->next;
-
-  list->next = new_node;
+  else {
+    node* current = *list;
+    while (current->next)
+      current = current->next;
+    current->next = new_node;
+  }
 }
 
 
-int list_pop_end(node* list){
+int list_pop(node* list){
+
+  if (!list)
+    return -1;
   
   node* prev_node = NULL;
   while (list->next != NULL) {
@@ -65,39 +70,57 @@ int list_pop_end(node* list){
   return result;
 }
 
-void list_append_on_x(node* list, int new_element, int position){
+void list_insert(node** list, int new_element, int position){
   node* left;
   node* new_node = (node*)malloc(sizeof(node));
   CHECK_ALLOC(new_node);
-  node *right = list;
+  node *right = *list;
 
-  if (position == 0){
+  if (*list == NULL) {
     new_node->data = new_element;
-    new_node->next = list;
-    list = new_node; 
+    new_node->next = NULL;
+    *list = new_node; 
   }
   
   else {
-    for (int i = 0; i < position; ++i){
-      left = right;
-	right = right->next;
-      } 
-      new_node->data = new_element;
-      left->next = new_node;
-      new_node->next = right;
-    }
-  }
-
-  int list_pop_on_x(node* list, int position){
-    node* left;
-    node* right = list;
-    int popped_el;
-
     if (position == 0){
-      popped_el = list->data;
-      left = list;
-      list = list->next;
-      free(left);
+      new_node->data = new_element;
+	new_node->next = *list;
+	*list = new_node; 
+      }
+  
+      else {
+	for (int i = 0; i < position; ++i){
+	  left = right;
+	  right = right->next;
+	} 
+	new_node->data = new_element;
+	left->next = new_node;
+	new_node->next = right;
+      }
+  }
+}
+
+int list_remove(node** list, int position){
+  node* left;
+  node* right = *list;
+  int removed_el;
+
+  if (!*list)
+    return -1;
+
+  if (!(*list)->next) {
+    removed_el = (*list)->data;
+    free(*list);
+    *list = NULL;
+    return removed_el;
+  }
+    
+  else {
+    if (position == 0){
+      removed_el = (*list)->data; 
+      *list = (*list)->next; 
+      free(right);
     }
     else {
       for (int i = 0; i < position; ++i){
@@ -105,11 +128,12 @@ void list_append_on_x(node* list, int new_element, int position){
 	right = right->next;
       }
       left->next = right->next;
-      popped_el = right->data;
+      removed_el = right->data;
       free(right);
     }
-    return popped_el;
+    return removed_el;
   }
+}
   
 void test_list_create(void) {
   node* list = list_create(1);
@@ -120,10 +144,10 @@ void test_list_create(void) {
 }
 
 
-void test_list_append_element_end(void) {
+void test_list_append(void) {
   node* list = list_create(1);
   
-  list_append_element_end(list, 2);
+  list_append(&list, 2);
   
   ASSERT(list->data == 1);
   ASSERT(list->next->data == 2);
@@ -131,39 +155,56 @@ void test_list_append_element_end(void) {
   list_free(list);
 }
 
-void test_list_append_many_end(void) {
+void test_list_append_many(void) {
   node* list = list_create(0); 
   ASSERT(list->data == 0);
   
   node* iterator = list;
   for(int i=1; i<15; ++i) {
-    list_append_element_end(list, i);
+    list_append(&list, i);
 	iterator = iterator->next;
 	ASSERT(iterator->data == i);
       }
       list_free(list);
-    }
+}
 
-    void test_list_pop_element_end(void) {
-      node* list = list_create(1); 
-      ASSERT(list_pop_end(list) == 1); 
-      list = NULL;
-    }
+void test_append_to_empty() {
+  node* head = NULL;
+  list_append(&head, 1);
+  ASSERT(head != NULL);
+  ASSERT(head->data == 1);
+  ASSERT(head->next == NULL);
+  list_free(head);
+}
 
+void test_list_pop(void) {
+  node* list = list_create(1); 
+  ASSERT(list_pop(list) == 1); 
+  list = NULL;
+}
 
-    void test_list_append_on_x(void){
-      node* list = list_create(0); 
-      node* iterator = list;
-      for(int i=1; i<5; ++i) {
-	list_append_element_end(list, i);
-	iterator = iterator->next; 
-      }
-      list_append_on_x(list, 16, 2);
-      ASSERT(list->next->data == 16);
-      list_free(list);
-    }
+void test_list_insert(void){
+  node* list = list_create(0); 
+  node* iterator = list;
+  for(int i=1; i<5; ++i) {
+    list_append(&list, i);
+    iterator = iterator->next; 
+  }
+  list_insert(&list, 16, 2);
+  ASSERT(list->next->next->data == 16);
+  list_free(list);
+}
 
-/* void test_list_pop_on_x(void){ //todo
+void test_list_insert_to_empty(void){
+  node* head = NULL;
+  list_insert(&head, 2, 0);
+  ASSERT(head != NULL);
+  ASSERT(head->data == 2);
+  ASSERT(head->next == NULL);
+  list_free(head);
+}
+
+/* void test_list_remove(void){ //todo
    node* list = list_create(100); 
    node* iterator = list;
    for(int i=1; i<7; ++i) {
@@ -173,14 +214,15 @@ void test_list_append_many_end(void) {
    }
 */
 
-int main(void) {
-  
+int main(void){
   test_list_create();
-	test_list_append_element_end();
-	test_list_append_many_end();
-	test_list_pop_element_end(); 
-	test_list_append_on_x();
-	//test_list_pop_on_x();
-  
-	return 0;
-      }
+  test_list_append();
+  test_list_append_many(); 
+  test_append_to_empty();
+  test_list_pop();
+  test_list_insert();
+  test_list_insert_to_empty();
+  //test_list_remove();
+
+  return 0;
+}
