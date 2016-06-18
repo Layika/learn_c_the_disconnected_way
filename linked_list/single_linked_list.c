@@ -53,14 +53,18 @@ void list_append_element(node* list, int new_element){
 }
 
 int list_pop(node* list){
-  node* temp = list;
-  node* new_tail;
-
-  while (temp->next != NULL) {
-    new_tail = temp;
-    temp = temp->next; 
+  
+  node* prev_node;
+  while (list->next != NULL) {
+    prev_node = list;
+    list = list->next; 
   }
-  return temp->data;
+  if (prev_node)
+    prev_node->next = NULL;
+
+  int result = list->data; 
+  free(list);
+  return result;
 }
 
 void test_list_create(void) {
@@ -109,6 +113,6 @@ int main(void) {
   test_list_create();
   test_list_append_element(); 
   test_list_append_many();
-  
+  test_list_pop();
   return 0;
 }
