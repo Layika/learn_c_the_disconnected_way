@@ -36,7 +36,7 @@ void list_free(node* first){
 }
 
 void list_append_element(node* list, int new_element){
-  node* new_node = (node*)malloc(sizeof(node));
+  node* new_node = (node*)malloc(sizeof(node)); 
   CHECK_ALLOC(new_node); 
   new_node->data = new_element;
   new_node->next = NULL;
@@ -45,8 +45,10 @@ void list_append_element(node* list, int new_element){
     list->next = new_node;
   else {
     node* current_node = list;
-    while (current_node->next != NULL) 
-      current_node->next = new_node;
+    while (current_node->next != NULL) {
+      current_node = current_node->next; 
+    }
+    current_node->next = new_node; 
   }
 }
 
@@ -89,7 +91,7 @@ void test_list_append_many(void) {
   node* iterator = list;
   for(int i=1; i<15; ++i) {
     list_append_element(list, i);
-    iterator = list->next;
+    iterator = iterator->next;
     ASSERT(iterator->data == i);
   }
   list_free(list);
