@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define ASSERT(x) printf("Assertion: " #x " = %d\n", (x))		/* \
-									 if (!x) \
-									 printf("Error in function %s, line %d", __func__, __LINE__);	\*/
+#define ASSERT(x) if (!(x)) printf("Assertion error: " #x " in function %s, line %d", __func__, __LINE__);	
 
 typedef int data_t;
 
