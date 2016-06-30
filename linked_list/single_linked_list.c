@@ -164,7 +164,7 @@ int list_remove(node** list, int position){
 	  node* remove = current;
 	  prev->next = NULL;
 	  free(remove); 
-      break;
+	  break;
 	}
       } 
     }
