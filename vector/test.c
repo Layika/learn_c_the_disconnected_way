@@ -6,8 +6,7 @@
 #include "test.h"
 
 void test_vector_create(){
-  array* arr =  vector_create();
-  ASSERT(arr != NULL);
+  array* arr =  vector_create(); 
   ASSERT(arr->capacity == init_capacity);
   ASSERT(arr->size == 0);
 
@@ -37,6 +36,7 @@ void test_vector_pop(){
 void test_vector_create_size(){
   array* arr =  vector_create_size(36);
   ASSERT(arr->capacity == 36);
+  free(arr);
 }
 
 void test_vector_insert(){
@@ -78,4 +78,8 @@ void test_vector_copy(){
   vector_free(copy_arr);
 }
 
-
+void test_vector_create_size_NULL_return(){
+  size_t max_size = (size_t)-1;
+  array* arr = vector_create_size(max_size);
+  ASSERT(arr == NULL);
+}

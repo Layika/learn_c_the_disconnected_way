@@ -11,5 +11,6 @@ void test_vector_create_size();
 void test_vector_insert();
 void test_vector_remove();
 void test_vector_copy();
+void test_vector_create_size_NULL_return();
 
 #endif
