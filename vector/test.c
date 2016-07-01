@@ -36,6 +36,7 @@ void test_vector_pop(){
 void test_vector_create_size(){
   array* arr =  vector_create_size(36);
   ASSERT(arr->capacity == 36);
+  ASSERT(arr->size == 0);
   free(arr);
 }
 
