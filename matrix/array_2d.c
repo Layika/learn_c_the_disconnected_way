@@ -18,13 +18,12 @@ void print_array(int** array, int x, int y) {
 
 #define CHECK_ALLOC(ptr)						\
   if (!ptr) {								\
-    printf("Error allocating memory for %s in  %s:%d line", #ptr, __func__, __LINE__-2); \
+    printf("Error allocating memory for %s in  %s:%d line", #ptr, __func__, __LINE__-1); \
     exit(2);								\
     }
 
 int** allocate_2d_array(size_t x, size_t y) {
   int** array = (int**) malloc(sizeof(int*) * y);
-  // array[y-1]
   CHECK_ALLOC(array);
   for(size_t i=0; i<y; ++i) {
     array[i] = (int*) malloc(sizeof(int) * x);
