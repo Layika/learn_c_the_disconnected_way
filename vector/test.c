@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "array.h"
-#include "array.c"
 #include "test.h"
 
 void test_vector_create() {
