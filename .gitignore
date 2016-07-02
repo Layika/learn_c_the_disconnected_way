@@ -13,3 +13,7 @@ peda*
 
 # gedit? temporary files
 *.c~
+
+
+# CLion (idea) project files
+.idea/
