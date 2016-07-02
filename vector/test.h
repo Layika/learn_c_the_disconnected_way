@@ -20,4 +20,6 @@ void test_vector_copy();
 
 void test_vector_create_size_NULL_return();
 
+void test_vector_remove_empty_array();
+
 #endif

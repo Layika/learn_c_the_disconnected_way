@@ -25,9 +25,9 @@ data_t vector_pop(array *arr);
 
 array *vector_create_size(size_t size);
 
-bool vector_insert(array *arr, data_t element, int pos);
+bool vector_insert(array *arr, data_t element, size_t pos);
 
-bool vector_remove(array *arr, int pos);
+bool vector_remove(array *arr, size_t pos);
 
 array *vector_copy(array *arr);
 

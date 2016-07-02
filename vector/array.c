@@ -55,6 +55,8 @@ void vector_free(array *arr) {
 data_t vector_pop(array *arr) {
     if (!arr)
         return -1;
+    if (arr->size == 0)
+        return -1;
     size_t index = arr->size - 1;
     data_t ret_el = arr->array[index];
     arr->array[index] = 0;
@@ -84,7 +86,7 @@ array *vector_create_size(size_t size) {
     }
 }
 
-bool vector_insert(array *arr, data_t element, int position) {
+bool vector_insert(array *arr, data_t element, size_t position) {
     if (!arr)
         return false;
 
@@ -104,7 +106,7 @@ bool vector_insert(array *arr, data_t element, int position) {
     return true;
 }
 
-bool vector_remove(array *arr, int position) {
+bool vector_remove(array *arr, size_t position) {
     if (!arr)
         return false;
 

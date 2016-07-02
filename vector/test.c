@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <string.h>
 #include "array.h"
+#include "array.c"
 #include "test.h"
 
 void test_vector_create() {
@@ -80,7 +80,14 @@ void test_vector_copy() {
 }
 
 void test_vector_create_size_NULL_return() {
-    size_t max_size = (size_t) -1;
+    size_t max_size = (size_t) -1   ;
     array *arr = vector_create_size(max_size);
     ASSERT(arr == NULL);
+}
+
+void test_vector_remove_empty_array() {
+    array* arr = vector_create();
+
+    ASSERT(vector_remove(arr, 0) == false);
+    ASSERT(arr->size == 0);
 }
