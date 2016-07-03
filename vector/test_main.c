@@ -9,5 +9,6 @@ int main() {
     test_vector_remove();
     test_vector_copy();
     test_vector_create_size_NULL_return();
+    test_vector_remove_empty_array();
     return 0;
 }
