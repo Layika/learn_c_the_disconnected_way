@@ -59,7 +59,6 @@ bool vector_pop(array *arr, data_t* popped_el) {
         return false;
     size_t index = arr->size - 1;
     *popped_el = arr->array[index];
-    arr->array[index] = 0;
     --arr->size;
     return true;
 }

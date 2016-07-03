@@ -29,6 +29,7 @@ void test_vector_pop() {
     data_t popped_el = 0;
     vector_pop(arr, &popped_el);
     ASSERT(popped_el == 3);
+    ASSERT(arr->size == 2);
 
     vector_free(arr);
 }
