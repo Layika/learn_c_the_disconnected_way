@@ -108,7 +108,8 @@ bool vector_insert(array *arr, data_t element, size_t position) {
 bool vector_remove(array *arr, size_t position) {
     if (!arr)
         return false;
-
+    if (arr->size == 0)
+        return false;
     memmove((arr->array + position), (arr->array + position + 1), (arr->size - position - 1) * sizeof(data_t));
     arr->size = arr->size - 1;
     return true;
