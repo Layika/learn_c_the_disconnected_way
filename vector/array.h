@@ -20,7 +20,7 @@ void vector_print(array *arr);
 
 void vector_free(array *arr);
 
-data_t vector_pop(array *arr);
+bool vector_pop(array *arr, data_t* popped_el);
 
 array *vector_create_size(size_t size);
 

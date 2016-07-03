@@ -26,7 +26,8 @@ void test_vector_pop() {
     vector_append(arr, 5);
     vector_append(arr, 4);
     vector_append(arr, 3);
-    data_t popped_el = vector_pop(arr);
+    data_t popped_el = 0;
+    vector_pop(arr, &popped_el);
     ASSERT(popped_el == 3);
 
     vector_free(arr);

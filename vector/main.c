@@ -13,8 +13,9 @@ int main() {
     vector_print(arr);
     vector_append(arr, 5);
     vector_print(arr);
-
-    printf("Popped: %d\n", vector_pop(arr));
+    data_t popped_el = 0;
+    vector_pop(arr, &popped_el);
+    printf("Popped: %d\n", popped_el);
     vector_print(arr);
 
     printf("insert 100 on pos 2:\n");

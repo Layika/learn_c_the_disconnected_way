@@ -52,16 +52,16 @@ void vector_free(array *arr) {
     free(arr);
 }
 
-data_t vector_pop(array *arr) {
+bool vector_pop(array *arr, data_t* popped_el) {
     if (!arr)
-        return -1;
+        return false;
     if (arr->size == 0)
-        return -1;
+        return false;
     size_t index = arr->size - 1;
-    data_t ret_el = arr->array[index];
+    *popped_el = arr->array[index];
     arr->array[index] = 0;
     --arr->size;
-    return ret_el;
+    return true;
 }
 
 array *vector_create_size(size_t size) {
