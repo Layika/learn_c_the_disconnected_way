@@ -1,5 +1,4 @@
-#ifndef ARRAY_H
-#define ARRAY_H
+#pragma once
 #include <stdbool.h>
 
 #define init_capacity 4
@@ -31,5 +30,4 @@ bool vector_remove(array *arr, size_t pos);
 
 array *vector_copy(array *arr);
 
-#endif
 
