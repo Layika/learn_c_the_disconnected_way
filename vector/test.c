@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include "array.h"
 #include "test.h"
 
@@ -38,7 +39,7 @@ void test_vector_create_size() {
     array *arr = vector_create_size(36);
     ASSERT(arr->capacity == 36);
     ASSERT(arr->size == 0);
-    free(arr);
+    vector_free(arr);
 }
 
 void test_vector_insert() {
@@ -81,14 +82,16 @@ void test_vector_copy() {
 }
 
 void test_vector_create_size_NULL_return() {
-    size_t max_size = (size_t) -1   ;
+    size_t max_size = SIZE_MAX / sizeof(size_t);
     array *arr = vector_create_size(max_size);
     ASSERT(arr == NULL);
 }
+
 
 void test_vector_remove_empty_array() {
     array* arr = vector_create();
 
     ASSERT(vector_remove(arr, 0) == false);
     ASSERT(arr->size == 0);
+    vector_free(arr);
 }
