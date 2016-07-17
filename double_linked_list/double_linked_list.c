@@ -54,9 +54,10 @@ bool list_append(list* l, int new_elem){
     new_node->prev = l->tail;
     new_node->next = NULL;
     if (!l->head)
-        l->head = new_node;
-    if (l->tail)
+        l->head =  new_node;
+    else 
         l->tail->next = new_node;
+    l->tail = new_node;
     l->quantity += 1;
     return true;
 }

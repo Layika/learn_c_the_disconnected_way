@@ -27,17 +27,16 @@ void test_list_prepend() {
 void test_list_append(){
     list* l = list_create();
     int result = list_append(l, 100);
-    ASSERT(result == true);
+    ASSERT(result != 0);
     ASSERT(l->head == l->tail);
-    printf("%d\n\n", l->head->data);
-    ASSERT(l->head->data == 100); // x
+    ASSERT(l->head->data == 100);
     ASSERT(l->head->next == NULL);
     ASSERT(l->head->prev == NULL);
     list_append(l, 10);
     ASSERT(l->head != l->tail);
-    ASSERT(l->head->data == 100); //-----
+    ASSERT(l->head->data == 100);
     ASSERT(l->head->next->data == 10);
-    ASSERT(l->head->next->prev == NULL);
+    ASSERT(l->tail->next == NULL);
     list_free(l);
 }
 /*
