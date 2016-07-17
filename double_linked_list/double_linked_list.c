@@ -1,106 +1,128 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "double_linked_list.h"
 
-node* list_create(){
-    node* head = (node*)malloc(sizeof(node));
-    return head;
+list* list_create(){
+    list* l = (list*)malloc(sizeof(list));
+    l->quantity = 0;
+    return l;
 }
 
-void list_free(node* head){
-    node* first = head;
+void list_free(list* l){
+    node* first = l->head;
     while (first->next) {
             node *second = first;
             first = first->next;
             free(second);
     }
-    head = NULL;
+    l = NULL;
 }
 
-void list_print(node* head){
-    if (!head)
+void list_print(list* l){
+    if (!l)
         printf("Empty list!\n");
     else{
-        node* tmp = head;
-        node* next_node = tmp->next;
+        node* tmp = l->head;
         printf("[ ");
-        while (tmp->next){
-            printf("%d ", next_node->data);
+        while (tmp){
+            printf("%d ", tmp->data);
             tmp = tmp->next;
-            next_node = next_node->next;
         }
         printf("]\n");
     }
 }
 
-void list_prepend(node* head, int new_elem) {
+void list_prepend(list* l, int new_elem) {
     node* new_node = (node*)malloc(sizeof(node));
     new_node->data = new_elem;
-    new_node->next = head;
+    new_node->next = l->head;
     new_node->prev = NULL;
-    head->prev = new_node;
-    head = new_node;
+    if (l->head)
+        l->head->prev = new_node;
+    l->head = new_node;
+    if (!l->head->next)
+        l->tail = l->head;
+    l->quantity += 1;
 }
 
-void list_append(node* head, int new_elem){
+bool list_append(list* l, int new_elem){
     node* new_node = (node*)malloc(sizeof(node));
+    if (!new_node)
+        return false;
     new_node->data = new_elem;
-    new_node->prev = NULL;
+    new_node->prev = l->tail;
     new_node->next = NULL;
-
-        while(head->next)
-            head = head->next;
-        head->next = new_node;
-        new_node->prev = head;
+    if (!l->head)
+        l->head = new_node;
+    if (l->tail)
+        l->tail->next = new_node;
+    l->quantity += 1;
+    return true;
 }
 
-int list_pop(node* head){
-    node* tmp = head;
-    node* prev_node = NULL;
-    while (tmp->next) {
-            prev_node = tmp;
-            tmp = tmp->next;
-    }
-    prev_node->next = NULL;
+int list_pop(list* l){
+    l->quantity -= 1;
+    node* tmp = l->tail;
     int ret_el = tmp->data;
     free(tmp);
     return ret_el;
 }
 
-void list_reverse(node* head){
-    if (!head->next)
+void list_reverse(list* l){
+    if (!l->tail)
         return;
     else {
-        while (head->next)
-            head = head->next;
-        node* tmp = head->next;
-        node* change = tmp;
-        while (tmp->prev) { // here
-            change = tmp;
-            change->next = tmp->prev;
-            change->prev = tmp->next;
-            tmp = tmp->prev;
+        node* tmp = l->head;
+        l->head = l->tail;
+        l->tail = tmp;
+
+        node* iter = l->head->prev;
+        tmp = l->head;
+        node* change = iter;
+        node* help = iter;
+        while(iter->prev) {
+            change->prev = change->next;
+            change->next = help->prev;
+
+            iter = iter->prev;
+            change = iter;
+            help = iter;
         }
-        while (change->prev)
-            change = change->prev;
-        head = change;
+        tmp->next = tmp->prev;
+        tmp->prev = NULL;
     }
 }
 
-int list_get_el(node* head, int pos){
+int list_get_el(list* l, int pos){
     int chosen_el;
-    if (!head->next || pos == 0){
-        chosen_el = head->data;
+    int quantity = l->quantity;
+    if (!l->tail || pos == 0){
+        chosen_el = l->head->data;
     }
-    else {
+    else if (pos <= quantity/2){
         int counter = 0;
-        node* tmp = head;
-        while (tmp->next) {
+        node* iter = l->head;
+        while(iter->next){
+            iter = iter->next;
             ++counter;
             if (counter == pos)
                 break;
-            chosen_el = tmp->data;
         }
+        chosen_el = iter->data;
     }
+    else if (pos > quantity/2){
+        int counter = 0;
+        node* iter = l->tail;
+        while(iter->prev){
+            iter = iter->prev;
+            ++counter;
+            if (counter == pos)
+                break;
+        }
+        chosen_el = iter->data;
+    }
+    else if (pos > quantity)
+        chosen_el = l->tail->data;
     return chosen_el;
 }
