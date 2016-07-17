@@ -2,29 +2,29 @@
 #include "double_linked_list.h"
 
 int main(){
-    node* head = list_create();
+    list* l = list_create();
 
-    list_append(head, 2);
-    list_append(head, 3);
-    list_append(head, 4);
-    list_append(head, 5);
-    list_print(head);
+    list_prepend(l, 1);
+    list_prepend(l, 0);
+    list_print(l);
 
-    list_prepend(head, 1);
-    list_prepend(head, 0);
-    list_print(head);
-
-    int popped = list_pop(head);
+    list_append(l, 2);
+    list_append(l, 3);
+    list_append(l, 4);
+    list_append(l, 5);
+    list_print(l);
+/*
+    int popped = list_pop(l);
     printf("Popped element: %d\n", popped);
-    list_print(head);
+    list_print(l);
 
-    int chosen_el = list_get_el(head, 5);
+    int chosen_el = list_get_el(l, 5);
     printf("Element on chosen position is: %d\n", chosen_el);
-    list_print(head);
+    list_print(l);
 
-    list_reverse(head);
-    list_print(head);
+    list_reverse(l);
+    list_print(l);*/
 
-    list_free(head);
+    list_free(l);
     return 0;
 }
