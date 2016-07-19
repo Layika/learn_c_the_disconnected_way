@@ -39,16 +39,29 @@ void test_list_append(){
     ASSERT(l->tail->next == NULL);
     list_free(l);
 }
-/*
+
 void test_list_pop(){
     list* l = list_create();
     list_prepend(l, 0);
     list_prepend(l, 1);
     int popped = list_pop(l);
     ASSERT(popped == 0);
+    ASSERT(l->head->data == 1);
+    ASSERT(l->head == l->tail);
     list_free(l);
 }
 
+void test_list_get_el(){
+    list* l = list_create();
+    list_prepend(l, 1);
+    list_prepend(l, 0);
+    int chosen_el = list_get_el(l, 1);
+    ASSERT(chosen_el == 1);
+    ASSERT(l->tail->data == 1);
+    list_free(l);
+}
+
+/*
 void test_list_reverse(){
     list* l = list_create();
     for (int i = 0; i < 6; ++i){
@@ -62,15 +75,5 @@ void test_list_reverse(){
             tmp = tmp->next;
         }
     }
-    list_free(l);
-}
-
-void test_list_get_el(){
-    list* l = list_create();
-    list_prepend(l, 1);
-    list_prepend(l, 0);
-    int chosen_el = list_get_el(l, 1);
-    ASSERT(chosen_el == 1);
-    ASSERT(l->tail->data == 1);
     list_free(l);
 }*/

@@ -6,6 +6,8 @@
 list* list_create(){
     list* l = (list*)malloc(sizeof(list));
     l->quantity = 0;
+    l->head = NULL;
+    l->tail = NULL;
     return l;
 }
 
@@ -16,7 +18,7 @@ void list_free(list* l){
             first = first->next;
             free(second);
     }
-    l = NULL;
+    free(l);
 }
 
 void list_print(list* l){
@@ -55,7 +57,7 @@ bool list_append(list* l, int new_elem){
     new_node->next = NULL;
     if (!l->head)
         l->head =  new_node;
-    else 
+    else
         l->tail->next = new_node;
     l->tail = new_node;
     l->quantity += 1;
@@ -67,6 +69,8 @@ int list_pop(list* l){
     node* tmp = l->tail;
     int ret_el = tmp->data;
     free(tmp);
+    if (l->quantity < 2)
+        l->tail = l->head;
     return ret_el;
 }
 
