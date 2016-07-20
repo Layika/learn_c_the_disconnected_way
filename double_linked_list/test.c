@@ -61,19 +61,26 @@ void test_list_get_el(){
     list_free(l);
 }
 
-/*
+
 void test_list_reverse(){
     list* l = list_create();
-    for (int i = 0; i < 6; ++i){
+    for (int i = 5; i >= 0; --i){
         list_append(l, i);
     }
     list_reverse(l);
     node* tmp = l->head;
-    while(tmp->next) {
-        for (int i = 5; i >= 0; --i) {
-            ASSERT(tmp->data == i);
-            tmp = tmp->next;
-        }
-    }
+    ASSERT(tmp->data == 0);
+    tmp = tmp->next;
+    ASSERT(tmp->data == 1);
+    tmp = tmp->next;
+    ASSERT(tmp->data == 2);
+    tmp = tmp->next;
+    ASSERT(tmp->data == 3);
+    tmp = tmp->next;
+    ASSERT(tmp->data == 4);
+    tmp = tmp->next;
+    ASSERT(tmp->data == 5);
+    tmp = tmp->next;
+
     list_free(l);
-}*/
+}

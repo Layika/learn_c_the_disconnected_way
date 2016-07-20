@@ -13,7 +13,7 @@ int main(){
     list_append(l, 4);
     list_append(l, 5);
     list_print(l);
-/*
+
     int popped = list_pop(l);
     printf("Popped element: %d\n", popped);
     list_print(l);
@@ -23,7 +23,7 @@ int main(){
     list_print(l);
 
     list_reverse(l);
-    list_print(l);*/
+    list_print(l);
 
     list_free(l);
     return 0;

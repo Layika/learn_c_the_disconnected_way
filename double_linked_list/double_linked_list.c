@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include "double_linked_list.h"
 
-list* list_create(){
+list* list_create(){ //how to tell if malloc worked?
     list* l = (list*)malloc(sizeof(list));
     l->quantity = 0;
     l->head = NULL;
@@ -35,8 +35,10 @@ void list_print(list* l){
     }
 }
 
-void list_prepend(list* l, int new_elem) {
+bool list_prepend(list* l, int new_elem) {
     node* new_node = (node*)malloc(sizeof(node));
+    if (!new_node)
+        return false;
     new_node->data = new_elem;
     new_node->next = l->head;
     new_node->prev = NULL;
@@ -46,6 +48,7 @@ void list_prepend(list* l, int new_elem) {
     if (!l->head->next)
         l->tail = l->head;
     l->quantity += 1;
+    return true;
 }
 
 bool list_append(list* l, int new_elem){
@@ -72,31 +75,6 @@ int list_pop(list* l){
     if (l->quantity < 2)
         l->tail = l->head;
     return ret_el;
-}
-
-void list_reverse(list* l){
-    if (!l->tail)
-        return;
-    else {
-        node* tmp = l->head;
-        l->head = l->tail;
-        l->tail = tmp;
-
-        node* iter = l->head->prev;
-        tmp = l->head;
-        node* change = iter;
-        node* help = iter;
-        while(iter->prev) {
-            change->prev = change->next;
-            change->next = help->prev;
-
-            iter = iter->prev;
-            change = iter;
-            help = iter;
-        }
-        tmp->next = tmp->prev;
-        tmp->prev = NULL;
-    }
 }
 
 int list_get_el(list* l, int pos){
@@ -130,4 +108,26 @@ int list_get_el(list* l, int pos){
     else if (pos > quantity)
         chosen_el = l->tail->data;
     return chosen_el;
+}
+
+void list_reverse(list* l){
+    if (l->tail == l->head || l->head == NULL)
+        return;
+    else {
+        node* tmp = l->head;
+        l->head = l->tail;
+        l->tail = tmp;
+        node* iter = l->head;
+        node* temp = l->head->prev;
+        void* holder;
+        l->head->next = l->head->prev;
+        l->head->prev = NULL;
+        while(iter->next) {
+            holder = temp->next;
+            temp->next = temp->prev;
+            temp->prev = holder;
+            iter = temp;
+            temp = temp->next;
+        }
+    }
 }
