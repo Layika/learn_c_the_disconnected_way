@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Wpedantic -g
 
-all: double_linked_list tmain
+all: double_linked_list tmain main
 
 double_linked_list: double_linked_list.o
 	$(CC) $(CFLAGS) main.c double_linked_list.o -o double_linked_list
@@ -15,5 +15,8 @@ test.o: test.c double_linked_list.c
 tmain: test.o double_linked_list.o tmain.c
 	$(CC) $(CFLAGS) tmain.c test.o double_linked_list.o -o tmain
 
+main: double_linked_list.o main.c
+	$(CC) $(CFLAGS) main.c double_linked_list.o -o main
+
 clean:
-	rm *.o tmain double_linked_list
+	rm *.o tmain main double_linked_list
