@@ -3,22 +3,34 @@
 #include <stdbool.h>
 #include "double_linked_list.h"
 
-list* list_create(){ //how to tell if malloc worked?
+list* list_create(){
     list* l = (list*)malloc(sizeof(list));
+    if (l == NULL)
+        return NULL;
     l->quantity = 0;
     l->head = NULL;
     l->tail = NULL;
     return l;
 }
 
-void list_free(list* l){
-    node* first = l->head;
-    while (first->next) {
-            node *second = first;
-            first = first->next;
-            free(second);
+void list_free(list* l) {
+    if (l->head == NULL)
+        free(l);
+    else {
+        node *first = l->head;
+        if (l->quantity == 1)
+            free(first);
+        else if (l->quantity == 0)
+            return;
+        else {
+            while (first) {
+                node *second = first;
+                first = first->next;
+                free(second);
+            }
+        }
+        free(l);
     }
-    free(l);
 }
 
 void list_print(list* l){
@@ -67,13 +79,20 @@ bool list_append(list* l, int new_elem){
     return true;
 }
 
-int list_pop(list* l){
-    l->quantity -= 1;
-    node* tmp = l->tail;
+int list_pop(list* l) {
+    node *tmp = l->tail;
     int ret_el = tmp->data;
-    free(tmp);
-    if (l->quantity < 2)
+    if (l->quantity > 1) {
+        l->tail = l->tail->prev;
+        free(tmp);
+    }
+    l->quantity -= 1;
+    if (l->quantity == 1)
         l->tail = l->head;
+    else if (l->quantity == 0) {
+        l->tail = l->head = NULL;
+        free(tmp);
+    }
     return ret_el;
 }
 

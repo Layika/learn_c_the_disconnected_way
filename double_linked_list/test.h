@@ -7,5 +7,6 @@ void test_list_create();
 void test_list_prepend();
 void test_list_append();
 void test_list_pop();
+void test_list_pop_one_elem_list();
 void test_list_get_el();
 void test_list_reverse();

@@ -7,6 +7,7 @@ void test_list_create(){
     list* l = list_create();
     ASSERT(l->head == NULL);
     ASSERT(l->tail == NULL);
+    list_free(l);
 }
 
 void test_list_prepend() {
@@ -47,6 +48,16 @@ void test_list_pop(){
     int popped = list_pop(l);
     ASSERT(popped == 0);
     ASSERT(l->head->data == 1);
+    ASSERT(l->head == l->tail);
+    list_free(l);
+}
+
+void test_list_pop_one_elem_list(){
+    list* l = list_create();
+    list_prepend(l, 0);
+    int popped = list_pop(l);
+    ASSERT(popped == 0);
+    ASSERT(l->head == NULL);
     ASSERT(l->head == l->tail);
     list_free(l);
 }
