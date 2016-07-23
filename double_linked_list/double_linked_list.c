@@ -84,6 +84,7 @@ int list_pop(list* l) {
     int ret_el = tmp->data;
     if (l->quantity > 1) {
         l->tail = l->tail->prev;
+        l->tail->next = NULL;
         free(tmp);
     }
     l->quantity -= 1;
