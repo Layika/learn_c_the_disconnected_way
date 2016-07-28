@@ -95,3 +95,13 @@ void test_list_reverse(){
 
     list_free(l);
 }
+
+void test_list_get_el_pos_bigger_than_half(){
+    list* l = list_create();
+    for (int i = 6; i >= 0; --i){
+        list_prepend(l, i);
+    };
+    int chosen_el = list_get_el(l, 5);
+    ASSERT(chosen_el == 4);
+    list_free(l);
+}

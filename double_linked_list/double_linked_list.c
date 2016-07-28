@@ -14,23 +14,21 @@ list* list_create(){
 }
 
 void list_free(list* l) {
-    if (l->head == NULL)
-        free(l);
-    else {
-        node *first = l->head;
-        if (l->quantity == 1)
-            free(first);
-        else if (l->quantity == 0)
-            return;
-        else {
-            while (first) {
-                node *second = first;
-                first = first->next;
-                free(second);
-            }
+    if (l->quantity > 0) {
+        node* current = l->head;
+        node* next = l->head->next;
+
+        while(next) {
+            free(current);
+            current = next;
+            next = next->next;
         }
-        free(l);
+
+        // deallocating last element
+        free(current);
     }
+
+    free(l);
 }
 
 void list_print(list* l){
@@ -100,9 +98,11 @@ int list_pop(list* l) {
 int list_get_el(list* l, int pos){
     int chosen_el;
     int quantity = l->quantity;
+
     if (!l->tail || pos == 0){
         chosen_el = l->head->data;
     }
+
     else if (pos <= quantity/2){
         int counter = 0;
         node* iter = l->head;
@@ -114,7 +114,9 @@ int list_get_el(list* l, int pos){
         }
         chosen_el = iter->data;
     }
+
     else if (pos > quantity/2){
+        pos = l->quantity - pos;
         int counter = 0;
         node* iter = l->tail;
         while(iter->prev){
@@ -125,6 +127,7 @@ int list_get_el(list* l, int pos){
         }
         chosen_el = iter->data;
     }
+
     else if (pos > quantity)
         chosen_el = l->tail->data;
     return chosen_el;
@@ -139,7 +142,7 @@ void list_reverse(list* l){
         l->tail = tmp;
         node* iter = l->head;
         node* temp = l->head->prev;
-        void* holder;
+        node* holder;
         l->head->next = l->head->prev;
         l->head->prev = NULL;
         while(iter->next) {
