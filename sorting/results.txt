@@ -1,0 +1,66 @@
+for ARR_SIZE = 1000:
+quicksort:
+	199799
+	209420
+	204511
+	
+bubblesort:
+	5737329
+	5698531
+	5806663
+	
+quicksort(O1):
+	95657
+	99771
+	90967
+
+bubblesort(O1):
+	1878815
+	1978319
+	1893584
+
+quicksort(O2):
+	93182
+	92476
+	91988
+
+bubblesort(O2):
+	1796072
+	1739168
+	1763371
+
+quicksort(O3):
+	91979
+	82468
+	92204
+
+bubblesort(O3):
+	2071165
+	1984913
+	1942482
+
+
+
+for ARR_SIZE = 100:
+qusicksort: 
+	4925 
+	5766
+	5076
+
+bubblesort: 
+	20543
+	19463
+	20515
+
+
+
+for ARR_SIZE = 10:
+quicksort: 
+	778
+	867
+	793
+
+bubblesort: 
+	653
+	631
+	649
