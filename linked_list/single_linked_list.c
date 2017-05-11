@@ -46,7 +46,7 @@ void list_append(node** list, data_t new_element){
   }
   else {
     node* current = *list;
-    while (current->next)
+    while (current->next) {
       current = current->next;
       current->next = new_node;
     }
